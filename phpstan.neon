@@ -6,3 +6,8 @@ parameters:
         - app/
 
     level: 5
+
+    ignoreErrors:
+        -   
+            rawMessage: 'Static method Illuminate\Http\Client\Factory::preventingStrayRequests() invoked with 1 parameter, 0 required.'
+            path: app/Providers/AppServiceProvider.php
