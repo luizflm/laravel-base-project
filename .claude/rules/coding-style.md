@@ -54,7 +54,7 @@ class OrderController extends Controller
 ```
 
 ## Action Pattern
-Actions contain business logic. The name should follow the CRUD methods. Example: CreateOrder, DeleteUserAvatar, etc. They are injected via parameter. Actions should not depend on Request or other HTTP-layer objects. Accept only validated data (arrays or DTOs), return models or results. 
+Actions contain business logic. The name should follow the CRUD methods. Example: CreateOrder, DeleteUserAvatar, etc. They are injected via parameter (method injection). Actions should not depend on Request or other HTTP-layer objects. Accept only validated data (arrays or DTOs), return models or results. 
 
 ### Action example:
 ```php
