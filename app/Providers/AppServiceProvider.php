@@ -1,12 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\{DB, Http, URL};
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+final class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -21,32 +27,36 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->bootModels();
-        $this->bootUrl();
-        $this->bootTests();
-        $this->bootCommands();
+        $this->configureModels();
+        $this->configureScheme();
+        $this->configureTests();
+        $this->configureCommands();
+        $this->configureDates();
     }
 
-    private function bootModels(): void
+    private function configureModels(): void
     {
         Model::unguard();
-        Model::shouldBeStrict(
-            !$this->app->isProduction()
-        );
+        Model::shouldBeStrict();
     }
 
-    private function bootUrl(): void
+    private function configureScheme(): void
     {
-        URL::forceHttps($this->app->isProduction());
+        URL::forceHttps(app()->isProduction());
     }
 
-    private function bootTests(): void
+    private function configureTests(): void
     {
-        Http::preventingStrayRequests(!$this->app->isProduction());
+        Http::preventingStrayRequests();
     }
 
-    private function bootCommands(): void
+    private function configureCommands(): void
     {
-        DB::prohibitDestructiveCommands($this->app->isProduction());
+        DB::prohibitDestructiveCommands(app()->isProduction());
+    }
+
+    private function configureDates(): void
+    {
+        Date::use(CarbonImmutable::class);
     }
 }
